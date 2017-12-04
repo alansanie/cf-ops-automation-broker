@@ -2,15 +2,14 @@ package com.orange.oss.cloudfoundry.broker.opsautomation.ondemandbroker.credhub;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.credhub.core.CredHubTemplate;
-import org.springframework.credhub.support.CredentialDetails;
-import org.springframework.credhub.support.CredentialSummary;
-import org.springframework.credhub.support.CredentialType;
-import org.springframework.credhub.support.SimpleCredentialName;
+import org.springframework.credhub.support.*;
 import org.springframework.credhub.support.password.PasswordCredential;
 import org.springframework.credhub.support.value.ValueCredential;
 
@@ -20,8 +19,10 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -59,20 +60,22 @@ public class CredHubConnectorTest {
 		cdvList.add(cdv);
 
 		Map<String, String> expected = new HashMap<String, String>();
-//		expected.pu
-
+		expected.put("/bosh-ops/cassandra/cassandra_key_store_pass", "key_store_pass");
+		expected.put("/bosh-ops/cassandra/cassandra_admin_password", "admin_pass");
 
 		//Given behaviour
 		when (credHubConnector.template()).thenReturn(credHubTemplate);
+		when (credHubConnector.getAllDeploymentTree(path)).thenCallRealMethod();
 		when (credHubTemplate.findByPath(path)).thenReturn(csList);
-		when (credHubTemplate.getByName(anyString(), eq(PasswordCredential.class))).thenReturn(cdpList);
-		when (credHubTemplate.getByName(anyString(), eq(ValueCredential.class))).thenReturn(cdvList);
+		when (credHubTemplate.getByName(isA(CredentialName.class), eq(PasswordCredential.class))).thenReturn(cdpList);
+		when (credHubTemplate.getByName(isA(CredentialName.class), eq(ValueCredential.class))).thenReturn(cdvList);
 
 		//When
-		Map actual = credHubConnector.getAllDeploymentTree("");
+		Map actual = credHubConnector.getAllDeploymentTree(path);
 
 		//Then
-		assertEquals(0, 1);
+		assertTrue(actual.containsKey("/bosh-ops/cassandra/cassandra_key_store_pass"));
+		assertTrue(actual.containsKey("/bosh-ops/cassandra/cassandra_admin_password"));
 	}
 
 

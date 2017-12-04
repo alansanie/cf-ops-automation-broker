@@ -21,8 +21,7 @@ public class CredHubConnector {
 
 	private static Logger logger=LoggerFactory.getLogger(CredHubConnector.class.getName());
 	private String apiUriBase;
-	//private CredHubTemplate template;
-
+	
 	/**
 	 * Constructor
 	 * @param apiUriBase
