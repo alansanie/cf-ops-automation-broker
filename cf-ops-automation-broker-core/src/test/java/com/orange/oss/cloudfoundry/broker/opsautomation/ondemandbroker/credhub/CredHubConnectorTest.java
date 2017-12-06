@@ -59,10 +59,6 @@ public class CredHubConnectorTest {
 		List<CredentialDetails<ValueCredential>> cdvList = new ArrayList<CredentialDetails<ValueCredential>>();
 		cdvList.add(cdv);
 
-		Map<String, String> expected = new HashMap<String, String>();
-		expected.put("/bosh-ops/cassandra/cassandra_key_store_pass", "key_store_pass");
-		expected.put("/bosh-ops/cassandra/cassandra_admin_password", "admin_pass");
-
 		//Given behaviour
 		when (credHubConnector.template()).thenReturn(credHubTemplate);
 		when (credHubConnector.getAllDeploymentTree(path)).thenCallRealMethod();
