@@ -76,7 +76,7 @@
         <dependency>
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit</artifactId>
-            <version>4.9.0.201710071750-r</version>
+            <version>5.3.1.201904271842-r</version>
         </dependency>
 
         <!-- for bosh manifest yml parsing -->
