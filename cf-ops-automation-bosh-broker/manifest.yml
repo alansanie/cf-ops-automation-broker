@@ -1,0 +1,15 @@
+---
+applications:
+- name: cassandra-on-demand-broker
+  memory: 512m
+  instances: 1
+  path: target/cf-ops-automation-bosh-broker-0.22.0-SNAPSHOT.jar
+  env:
+     git.user: gberche
+     git.password: vdr-prod
+     git.url: https://gberche@elpaaso-gitlab.nd-preprod-ops-paas.itn.intraorange/skc-ops-pp/preprod-secrets.git
+     git.committerName: gberche
+     git.committerEmail: guillaume.berche@orange.com
+
+
+

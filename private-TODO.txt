@@ -1,0 +1,19 @@
+
+curl --user cassandra-broker:SaWcUWwH6B9LMAgWxFUQ1157Fr3e6M -X DELETE https://cassandra-brokerc0.nd-preprod-cfapi.itn.intraorange/v2/service_instances/111?service_id=cassandra-service-broker\&plan_id=cassandra-plan
+
+preprodBrokerUrlToRecord=https://cassandra-brokerc0.nd-preprod-cfapi.itn.intraorange;
+preprodBrokerUser=cassandra-broker;
+preprodBrokerPassword=SaWcUWwH6B9LMAgWxFUQ1157Fr3e6M
+
+
+Basic Y2Fzc2FuZHJhLWJyb2tlcjpTYVdjVVd3SDZCOUxNQWdXeEZVUTExNTdGcjNlNk0=
+Basic cassandra-broker:SaWcUWwH6B9LMAgWxFUQ1157Fr3e6M=
+
+https://coa-cassandra-broker.nd-preprod-cfapi.itn.intraorange/loggers
+
+curl -i -X POST -H 'Content-Type: application/json' -d '{"configuredLevel": "DEBUG"}' https://user:coacbroker_sqd0qs8Hdz7@coa-cassandra-broker.nd-preprod-cfapi.itn.intraorange/loggers/com.orange.oss.cloudfoundry.broker.opsautomation.ondemandbroker.pipeline.PipelineCompletionTracker
+
+
+404 Not Found https://cassandra-broker_1cc4bd10-aadc-4d7d-a1c4-acb955e637db.nd-preprod-cfapi.itn.intraorange/v2/catalog (5ms)
+
+cassandra-brokercassandravarsops_1cc4bd10-aadc-4d7d-a1c4-acb955e637db.((!/secrets/cloudfoundry_system_domain))

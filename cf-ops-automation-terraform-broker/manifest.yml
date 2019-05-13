@@ -1,0 +1,19 @@
+---
+applications:
+- name: cloudflare-broker
+  memory: 512m
+  instances: 1
+  path: target/cf-ops-automation-terraform-broker-0.0.1-SNAPSHOT.jar
+  env:
+     cloudflare.routeSuffix: cdn-cw-vdr-pprod-apps.elpaaso.net
+     clouflare.filePrefix: "cloudflare-instance-"
+     cloudflare.pathTFSpecs: cloudflare-depls/terraform-config/spec
+     cloudflare.pathToTfState: cloudflare-depls/terraform-config/terraform.tfstate
+     cloudflare.maxExecutionDurationSeconds: 300
+     git.user: gberche
+     git.password: vdr-prod
+     git.url: https://gberche@elpaaso-gitlab.nd-preprod-ops-paas.itn.intraorange/skc-ops-pp/preprod-secrets.git
+     git.committerName: gberche
+     git.committerEmail: guillaume.berche@orange.com
+
+
