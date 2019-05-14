@@ -30,6 +30,8 @@ curl -LJ https://s3.amazonaws.com/file-system-agent/xModuleAnalyzer/xModuleAnaly
 #Then invoke analysis on all modules
 java -jar xModuleAnalyzer.jar -xModulePath whitesource-multi-module.properties -fsaJarPath wss-unified-agent.jar -c whitesource_config.properties -statusDisplay dynamic 
 
+echo "Whitesource-Logs:"
+cat ./Whitesource-Logs*
 
 for currentFolderName in $(ls -d1 cf-ops-automation*/)
 do
