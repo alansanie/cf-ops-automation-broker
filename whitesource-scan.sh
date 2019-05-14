@@ -18,6 +18,13 @@ if [ ! -f wss-unified-agent.config ]; then
     curl -LJO https://github.com/whitesource/unified-agent-distribution/raw/master/standAlone/wss-unified-agent.config
 fi
 
+# https://whitesource.atlassian.net/wiki/spaces/WD/pages/651919363/EUA+Support+for+Multi-Module+Analysis
+#First discover submodules and save it into a properties file
+java -jar wss-unified-agent.jar -d $(pwd) -analyzeMultiModule whitesource-multi-module.properties
+#Then invoke analysis on all modules
+java -jar wss-unified-agent.jar -xModulePath whitesource-multi-module.properties -fsaJarPath wss-unified-agent.jar -c wss-unified-agent.config -statusDisplay dynamic -apiKey $WHITESOURCE_API_KEY
+
+
 for currentFolderName in $(ls -d1 cf-ops-automation*/)
 do
   projectName=${currentFolderName%?}
@@ -25,7 +32,7 @@ do
   jarCount=`find ${currentFolderName}/${targetFolderName} -type f -name "*.jar" | head -1 | wc -l`
   if [ $jarCount -gt 0 ]; then
     jarFile=`find ${currentFolderName}/${targetFolderName} -type f -name "*.jar" | head -1`
-    java -jar wss-unified-agent.jar -c wss-unified-agent.config -appPath ${jarFile} "${@:1}"
+    java -jar wss-unified-agent.jar -appPath ${jarFile} "${@:1}"
   fi
 done
 
