@@ -19,6 +19,8 @@ if [ ! -f wss-unified-agent.config ]; then
 fi
 
 # Fallback searching jars manually
+echo "--------------------------"
+echo "Start of explicit analysis of individual jars"
 for currentFolderName in $(ls -d1 cf-ops-automation*/)
 do
   projectName=${currentFolderName%?}
@@ -29,6 +31,10 @@ do
     java -jar wss-unified-agent.jar -appPath ${jarFile} -d ${currentFolderName} -product $productName -project $projectName -apiKey $WHITESOURCE_API_KEY -c whitesource_config.properties
   fi
 done
+
+echo "End of explicit analysis of individual jars"
+echo "--------------------------"
+
 
 
 # https://whitesource.atlassian.net/wiki/spaces/WD/pages/651919363/EUA+Support+for+Multi-Module+Analysis
