@@ -26,7 +26,7 @@ echo "whitesource-multi-module.properties content:"
 cat whitesource-multi-module.properties
 
 #Then invoke analysis on all modules
-java -jar wss-unified-agent.jar -xModulePath whitesource-multi-module.properties -fsaJarPath wss-unified-agent.jar -c whitesource_config.properties -statusDisplay dynamic -apiKey $WHITESOURCE_API_KEY
+java -jar wss-unified-agent.jar -xModulePath whitesource-multi-module.properties -fsaJarPath wss-unified-agent.jar -c whitesource_config.properties -statusDisplay dynamic -apiKey $WHITESOURCE_API_KEY -d ~/
 
 
 for currentFolderName in $(ls -d1 cf-ops-automation*/)
