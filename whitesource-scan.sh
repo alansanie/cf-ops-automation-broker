@@ -31,7 +31,9 @@ curl -LJ https://s3.amazonaws.com/file-system-agent/xModuleAnalyzer/xModuleAnaly
 java -jar xModuleAnalyzer.jar -xModulePath whitesource-multi-module.properties -fsaJarPath wss-unified-agent.jar -c whitesource_config.properties -statusDisplay dynamic 
 
 echo "Whitesource-Logs:"
-cat ./Whitesource-Logs*
+LOG_FILES=$(find ./Whitesource-Logs/ -type f)
+for f in $LOG_FILES; do echo "content of :$f"; cat $f; done
+
 
 for currentFolderName in $(ls -d1 cf-ops-automation*/)
 do
