@@ -10,6 +10,7 @@ jobs:
       - image: circleci/openjdk:8-jdk
     steps:
       - checkout
+      - bash <(curl -s -L https://github.com/whitesource/unified-agent-distribution/raw/master/standAlone/wss_agent.sh) -apiKey fdc1a123a57f449fb57d5634b2edb12a142b7f2301d548b6b23c6cbf64355358 -c whitesource_config.properties -project circle-ci_test -d ~/
       - attach_workspace:
           at: ~/cf-ops-automation-broker
       - run:
