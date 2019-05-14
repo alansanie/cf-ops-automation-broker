@@ -35,6 +35,7 @@ LOG_FILES=$(find ./Whitesource-Logs/ -type f)
 for f in $LOG_FILES; do echo "----- start content of :$f -----"; cat $f; echo "----- end content of :$f -----"; done
 
 
+# Fallback searching jars manually
 for currentFolderName in $(ls -d1 cf-ops-automation*/)
 do
   projectName=${currentFolderName%?}
