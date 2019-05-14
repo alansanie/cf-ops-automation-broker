@@ -5,12 +5,15 @@ productName=COAB
 # This is usually target or bin
 targetFolderName=target
 
-cd ~/
+cd ~/cf-ops-automation-broker
 
 #Extracted from  https://github.com/whitesource/unified-agent-distribution/raw/master/standAlone/wss_agent.sh
-curl -LJO https://github.com/whitesource/unified-agent-distribution/raw/master/standAlone/wss-unified-agent.jar
-curl -LJO https://github.com/whitesource/unified-agent-distribution/raw/master/standAlone/wss-unified-agent.config
-
+if [ ! -f wss-unified-agent.jar ]; then
+    curl -LJO https://github.com/whitesource/unified-agent-distribution/raw/master/standAlone/wss-unified-agent.jar
+fi
+if [ ! -f wss-unified-agent.config ]; then
+    curl -LJO https://github.com/whitesource/unified-agent-distribution/raw/master/standAlone/wss-unified-agent.config
+fi
 
 for currentFolderName in $(ls -d1 */)
 do
