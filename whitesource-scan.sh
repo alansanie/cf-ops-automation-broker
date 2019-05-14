@@ -32,7 +32,7 @@ java -jar xModuleAnalyzer.jar -xModulePath whitesource-multi-module.properties -
 
 echo "Whitesource-Logs:"
 LOG_FILES=$(find ./Whitesource-Logs/ -type f)
-for f in $LOG_FILES; do echo "content of :$f"; cat $f; done
+for f in $LOG_FILES; do echo "----- start content of :$f -----"; cat $f; echo "----- end content of :$f -----"; done
 
 
 for currentFolderName in $(ls -d1 cf-ops-automation*/)
