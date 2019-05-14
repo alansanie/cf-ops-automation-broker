@@ -18,14 +18,14 @@ if [ ! -f wss-unified-agent.config ]; then
     curl -LJO https://github.com/whitesource/unified-agent-distribution/raw/master/standAlone/wss-unified-agent.config
 fi
 
-for currentFolderName in $(ls -d1 */)
+for currentFolderName in $(ls -d1 cf-ops-automation*/)
 do
   projectName=${currentFolderName%?}
   #Finds the 1st jar file
   jarCount=`find ${currentFolderName}/${targetFolderName} -type f -name "*.jar" | head -1 | wc -l`
   if [ $jarCount -gt 0 ]; then
     jarFile=`find ${currentFolderName}/${targetFolderName} -type f -name "*.jar" | head -1`
-    java -jar wss-unified-agent.jar -c wss-unified-agent.config -appPath ${jarFile} "${@:2}"
+    java -jar wss-unified-agent.jar -c wss-unified-agent.config -appPath ${jarFile} "${@:1}"
   fi
 done
 
