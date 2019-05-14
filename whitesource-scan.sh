@@ -42,7 +42,7 @@ do
   jarCount=`find ${currentFolderName}/${targetFolderName} -type f -name "*.jar" | head -1 | wc -l`
   if [ $jarCount -gt 0 ]; then
     jarFile=`find ${currentFolderName}/${targetFolderName} -type f -name "*.jar" | head -1`
-    java -jar wss-unified-agent.jar -appPath ${jarFile} "${@:1}"
+    java -jar wss-unified-agent.jar -appPath ${jarFile} -d ${currentFolderName} -product $productName -project $projectName -apiKey $WHITESOURCE_API_KEY -c whitesource_config.properties
   fi
 done
 
