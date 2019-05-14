@@ -39,7 +39,7 @@ public class YamlCataloglAsEnvironmentVarApplicationContextInitializer implement
             LOGGER.info("Using CATALOG_YML environment variable to set service broker catalog.");
             PropertySource<?> propertySource = CatalogYamlPropertySourceMapper.toPropertySource(resource);
             convertPropertySourceToScOsbKeyPrefix((Map<String, String>) propertySource.getSource());
-            configurableApplicationContext.getEnvironment().getPropertySources().addFirst(propertySource);
+            configurableApplicationContext.getEnvironment().getPropertySources().addLast(propertySource);
         } catch (IOException e) {
             throw new IllegalStateException("Unable to read CATALOG_YML environment variable.",e);
         }

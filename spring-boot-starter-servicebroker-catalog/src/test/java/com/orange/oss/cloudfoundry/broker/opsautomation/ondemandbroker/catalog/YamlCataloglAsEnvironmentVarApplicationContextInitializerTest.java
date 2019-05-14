@@ -25,6 +25,7 @@ public class YamlCataloglAsEnvironmentVarApplicationContextInitializerTest {
     @Before
     public void init() {
         System.setProperty("CATALOG_YML", CATALOG_YML);
+        System.setProperty("spring.cloud.openservicebroker.catalog.services[0].plans[0].description", "overriden-by-individual-property");
         assertThat(System.getProperty("CATALOG_YML")).isNotEmpty();
     }
 
@@ -32,10 +33,13 @@ public class YamlCataloglAsEnvironmentVarApplicationContextInitializerTest {
     public void after() {
         System.clearProperty("CATALOG_YML");
         assertThat(System.getProperty("CATALOG_YML")).isNull();
+        System.clearProperty("spring.cloud.openservicebroker.catalog.services[0].plans[0].description");
+        assertThat(System.getProperty("spring.cloud.openservicebroker.catalog.services[0].plans[0].description")).isNull();
     }
 
     private final YamlCataloglAsEnvironmentVarApplicationContextInitializer contextInitializer = new YamlCataloglAsEnvironmentVarApplicationContextInitializer();
 
+    // The CATALOG_YML isn't prefixed by spring.cloud.openservicebroker to preserve legacy key format
     public static final String CATALOG_YML = "servicebroker:\n" +
             "   catalog:\n" +
             "     services:\n" +
@@ -59,7 +63,7 @@ public class YamlCataloglAsEnvironmentVarApplicationContextInitializerTest {
             "           supportUrl: https://orange.com/support\n";
 
     @Test
-    public void loads_yml_env_var_as_property_source_into_spring_context_and_convert_to_scosb_format() {
+    public void loads_yml_env_var_as_last_property_source_into_spring_context_and_convert_to_scosb_format() {
         //given a CATALOG_YML env var is defined
         StaticApplicationContext context = new StaticApplicationContext();
 
@@ -75,6 +79,8 @@ public class YamlCataloglAsEnvironmentVarApplicationContextInitializerTest {
         assertThat(catalogFromEnvVar.getProperty("spring.cloud.openservicebroker.catalog.services[0].name")).isEqualTo("ondemand");
         // same with nested properties
         assertThat(catalogFromEnvVar.getProperty("spring.cloud.openservicebroker.catalog.services[0].metadata.imageUrl")).isEqualTo("https://orange.com/image.png");
+
+        assertThat(context.getEnvironment().getProperty("spring.cloud.openservicebroker.catalog.services[0].plans[0].description")).isEqualTo("overriden-by-individual-property");
     }
 
     @Test
