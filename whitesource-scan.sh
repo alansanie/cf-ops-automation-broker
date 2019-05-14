@@ -18,6 +18,19 @@ if [ ! -f wss-unified-agent.config ]; then
     curl -LJO https://github.com/whitesource/unified-agent-distribution/raw/master/standAlone/wss-unified-agent.config
 fi
 
+# Fallback searching jars manually
+for currentFolderName in $(ls -d1 cf-ops-automation*/)
+do
+  projectName=${currentFolderName%?}
+  #Finds the 1st jar file
+  jarCount=`find ${currentFolderName}/${targetFolderName} -type f -name "*.jar" | head -1 | wc -l`
+  if [ $jarCount -gt 0 ]; then
+    jarFile=`find ${currentFolderName}/${targetFolderName} -type f -name "*.jar" | head -1`
+    java -jar wss-unified-agent.jar -appPath ${jarFile} -d ${currentFolderName} -product $productName -project $projectName -apiKey $WHITESOURCE_API_KEY -c whitesource_config.properties
+  fi
+done
+
+
 # https://whitesource.atlassian.net/wiki/spaces/WD/pages/651919363/EUA+Support+for+Multi-Module+Analysis
 #First discover submodules and save it into a properties file
 java -jar wss-unified-agent.jar -d $(pwd) -analyzeMultiModule whitesource-multi-module.properties
@@ -35,15 +48,4 @@ LOG_FILES=$(find ./Whitesource-Logs/ -type f)
 for f in $LOG_FILES; do echo "----- start content of :$f -----"; cat $f; echo "----- end content of :$f -----"; done
 
 
-# Fallback searching jars manually
-for currentFolderName in $(ls -d1 cf-ops-automation*/)
-do
-  projectName=${currentFolderName%?}
-  #Finds the 1st jar file
-  jarCount=`find ${currentFolderName}/${targetFolderName} -type f -name "*.jar" | head -1 | wc -l`
-  if [ $jarCount -gt 0 ]; then
-    jarFile=`find ${currentFolderName}/${targetFolderName} -type f -name "*.jar" | head -1`
-    java -jar wss-unified-agent.jar -appPath ${jarFile} -d ${currentFolderName} -product $productName -project $projectName -apiKey $WHITESOURCE_API_KEY -c whitesource_config.properties
-  fi
-done
 
