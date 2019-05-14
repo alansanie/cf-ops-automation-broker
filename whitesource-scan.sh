@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 productName=COAB
 # targetFolderName is where the jar file/s will be created.
 # This is usually target or bin
