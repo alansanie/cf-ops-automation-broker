@@ -73,7 +73,8 @@ public class SimpleGitManager implements GitManager {
                     .setDirectory(workDir.toFile())
                     .setTimeout(timeoutSeconds)
                     .setURI(this.gitUrl)
-                    .setCloneAllBranches(true); //explicitly set as default is not clearly documented
+                    .setCloneAllBranches(true)  //explicitly set as default is not clearly documented
+                    .setCloneSubmodules(false);
 
             Git git = clone.call();
             this.setGit(git, ctx);
