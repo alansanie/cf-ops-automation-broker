@@ -23,41 +23,19 @@ core-0.28.0-SNAPSHOT.jar!/:0.28.0-SNAPSHOT]
 :
 
 
-Retry logic for unavailable gitlab during integration:
-- for clone, retry the whole logic if part of the clone fails
-- for push commit, need to refine the logic to be idempotent and robust to intermediate failures:
-    - commit is done but push failed and is missing:
-       - push systematically only when retrying (avoid pushing when no changes to avoid collapsing gitlab remote)
-       - detect commits that need push
-          - when the remote branch exists
-            - https://stackoverflow.com/questions/2016901/viewing-unpushed-git-commits
-            - git log origin/branch..branch
-          - when the remote branch does not exist:it always exists because we create it during clone
-       
-Possible implementations:
-- https://stackoverflow.com/questions/11692595/design-pattern-for-retrying-logic-that-failed
+R
+  
+  
+-------------------------------
 
-   - https://github.com/spring-projects/spring-retry 
-      - depends on spring framework 4.3.22-release whereas we're already on 5.0.13
-      - not very active
-      - nice RetryContext to modify behavior during retries    
+Check whether operation status is sufficiently optimized
 
-Steps:
-- make commit push idempotent
-   - split commitPushRepo() into two idempotent methods: 
-   - add a test
-        - pushes_pending_commits_when_invoked_during_retry
-        - does_not_try_to_push_when_no_pending_commit: how to assert no push was made ?
-           - stop the git server
-                - verify push did not fail with exceptions
-              
-- add gitmanager retrier
-- instanciate in application with hardcoded retry policy
-- make retry policy configureable: wait between retries with random
+   2019-05-16T00:41:12.05+0200 [APP/PROC/WEB/0] OUT 2019-05-15 22:41:12.051 DEBUG 12 --- [nio-8080-exec-8] o.s.c.s.c.ServiceInstanceController      : Getting service instance last operation succeeded: serviceInstanceId=7334d589-adc6-4df6-b523-5d3351216216, response=GetLastServiceOperationResponse{state=in progress, description='null', deleteOperation=false}
+   2019-05-16T00:41:12.06+0200 [RTR/1] OUT coa-mongodb-broker.nd-int-cfapi.itn.intraorange - [2019-05-15T22:41:11.221+0000] "GET /v2/service_instances/7334d589-adc6-4df6-b523-5d3351216216/last_operation?operation=%7B%22org.springframework.cloud.servicebroker.model.instance.CreateServiceInstanceRequest%22%3A%7B%22serviceDefinitionId%22%3A%22mongodb-ondemand-service%22%2C%22planId%22%3A%22plan-coab-mongodb-small%22%2C%22organizationGuid%22%3A%22b65a1232-add9-49ab-8bf1-283ddc08c0de%22%2C%22spaceGuid%22%3A%2262c51153-303f-4c6e-af31-05f8509141ff%22%2C%22serviceInstanceId%22%3A%227334d589-adc6-4df6-b523-5d3351216216%22%2C%22plan%22%3A%7B%22id%22%3A%22plan-coab-mongodb-small%22%2C%22name%22%3A%22small%22%2C%22description%22%3A%22Dedicated+MongoDB+Cluster+2GB+data+storage+with+4GB+RAM%2F1CPU%22%2C%22metadata%22%3A%7B%22costs%22%3A%5B%7B%22amount%22%3A%7B%22eur%22%3A0.0%7D%2C%22unit%22%3A%22Monthly%22%7D%5D%2C%22displayName%22%3A%22Small+Data+2GB+-+4GB+RAM%2F1CPU%22%2C%22bullets%22%3A%5B%222GB+storage%22%5D%7D%2C%22free%22%3Afalse%7D%2C%22parameters%22%3A%7B%7D%2C%22context%22%3A%7B%22platform%22%3A%22cloudfoundry%22%2C%22properties%22%3A%7B%22spaceGuid%22%3A%2262c51153-303f-4c6e-af31-05f8509141ff%22%2C%22instance_name%22%3A%22mongodb-smoketest-1557960026%22%2C%22space_name%22%3A%22coa-mongodb-smoke-tests%22%2C%22organizationGuid%22%3A%22b65a1232-add9-49ab-8bf1-283ddc08c0de%22%2C%22organization_name%22%3A%22service-sandbox%22%7D%7D%2C%22asyncAccepted%22%3Atrue%2C%22apiInfoLocation%22%3A%22api.nd-int-cfapi.itn.intraorange%2Fv2%2Finfo%22%2C%22originatingIdentity%22%3A%7B%22platform%22%3A%22cloudfoundry%22%2C%22properties%22%3A%7B%22user_id%22%3A%220d02117b-aa21-43e2-b35e-8ad6f8223519%22%7D%7D%7D%2C%22startRequestDate%22%3A%222019-05-15T22%3A41%3A08.439Z%22%7D&plan_id=plan-coab-mongodb-small&service_id=mongodb-ondemand-service HTTP/1.1" 200 0 23 "-" "HTTPClient/1.0 (2.8.3, ruby 2.4.5 (2018-10-18))" "192.168.35.72:38134" "192.168.35.82:61024" x_forwarded_for:"192.168.35.72" x_forwarded_proto:"https" vcap_request_id:"aef55c34-4bb2-4cca-78ba-5d4787dff78f" response_time:0.842949689 app_id:"b7952693-bfc8-4982-b827-9e5cb2242ede" app_index:"0" x_b3_traceid:"f00fb9431f726174" x_b3_spanid:"f00fb9431f726174" x_b3_parentspanid:"-" b3:"f00fb9431f726174-f00fb9431f726174"
+   2019-05-16T00:41:12.06+0200 [RTR/1] OUT 
 
-RetryProperties
-- toModel() contructs the RetryPolicy
 
+  
 
 ----------------------------------
 
