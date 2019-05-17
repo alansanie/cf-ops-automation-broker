@@ -462,7 +462,8 @@ public class SimpleGitManagerTest {
 
         //given a repo with submodules configured
         gitServer.initRepo("paas-template.git", this::initPaasTemplateWithSubModules);
-        gitServer.initRepo(BOSH_DEPLOYMENT, this::initSubmoduleSampleRepo);
+        gitServer.initRepo(BOSH_DEPLOYMENT + ".git", this::initSubmoduleSampleRepo);
+        gitServer.initRepo(MYSQL_DEPLOYMENT + ".git", this::initSubmoduleSampleRepo);
         gitManager = new SimpleGitManager("gituser", "gitsecret", GIT_BASE_URL + "paas-template.git", "committerName", "committer@address.org", null);
         ctx.contextKeys.put(GitProcessorContext.checkOutRemoteBranch.toString(), "develop");
 
@@ -541,8 +542,8 @@ public class SimpleGitManagerTest {
 //            Path boshDeploymentRepo = gitWorkDir.toPath().resolve("bosh-deployment").resolve(".git");
 //            Repository repository = FileRepositoryBuilder.create(boshDeploymentRepo.toFile());
 //            repository.create();
-            git.submoduleAdd().setPath(BOSH_DEPLOYMENT).setURI(GIT_BASE_URL + BOSH_DEPLOYMENT).call();
-            git.submoduleAdd().setPath(MYSQL_DEPLOYMENT).setURI(GIT_BASE_URL + MYSQL_DEPLOYMENT).call();
+            git.submoduleAdd().setPath(BOSH_DEPLOYMENT).setURI(GIT_BASE_URL + BOSH_DEPLOYMENT + ".git").call();
+            git.submoduleAdd().setPath(MYSQL_DEPLOYMENT).setURI(GIT_BASE_URL + MYSQL_DEPLOYMENT + ".git").call();
             git.commit().setMessage("GitIT#startGitServer").call();
 
             git.checkout().setName("master").call();
